@@ -1,0 +1,497 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Taller de Coches - Subsistema de Envío de Notificaciones
+servers:
+  - url: http://127.0.0.1:80/api/v1
+
+paths:
+  /notificaciones/correo:
+    post:
+      summary: Envío de notificación de cambio de estado del trabajo por correo
+      description: Envía una notificación por correo al cliente cuando cambia el estado de un trabajo
+      tags:
+        - "Notificaciones 🔔"
+      requestBody:
+        $ref: '#/components/requestBodies/NotificacionRB'
+      responses:
+        '200':
+          $ref: '#/components/responses/NotificacionResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+  
+  /notificaciones/telefono:
+    post:
+      summary: Envío de notificación de cambio de estado del trabajo por teléfono
+      description: Envía una notificación por teléfono al cliente cuando cambia el estado de un trabajo
+      tags:
+        - "Notificaciones 🔔"
+      requestBody:
+        $ref: '#/components/requestBodies/NotificacionRB'
+      responses:
+        '200':
+          $ref: '#/components/responses/NotificacionResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+  
+  /notificaciones/masivas:
+    post:
+      summary: Envío de notificación masiva
+      description: Envía una notificación a todos los clientes con trabajos pendientes
+      tags:
+        - "Notificaciones 🔔"
+      requestBody:
+        $ref: '#/components/requestBodies/NotificacionMasivaRB'
+      responses:
+        '200':
+          $ref: '#/components/responses/NotificacionMasivaResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+  
+  /notificaciones/{idNotificacion}:
+    get:
+      summary: Obtener una notificación
+      description: Obtiene una notificación mediante su id, así como los enlaces a los recursos relacionados
+      tags:
+        - "Notificaciones 🔔"
+      parameters:
+        - name: idNotificacion
+          in: path
+          required: true
+          description: Identificador único de la notificación
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notificación obtenida correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacion'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '404':
+          $ref: '#/components/responses/Response404'
+  
+  /notificaciones/trabajo/{idTrabajo}:
+    get:
+      summary: Obtener notificaciones de un trabajo
+      description: Obtiene todas las notificaciones de un trabajo, así como los enlaces a los recursos relacionados
+      tags:
+        - "Notificaciones 🔔"
+      parameters:
+        - name: idTrabajo
+          in: path
+          required: true
+          description: Identificador único del trabajo
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: Paginación de las notificaciones del trabajo
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Notificaciones del trabajo obtenidas correctamente
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificaciones:
+                    description: Array de notificaciones
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/Notificacion'
+                  enlaces:
+                    description: Enlaces de paginación
+                    readOnly: true
+                    type: arr
+                    properties:
+                      prevPage:
+                        $ref: '#/components/schemas/Enlace'
+                      nextPage:
+                        $ref: '#/components/schemas/Enlace'
+              examples:
+                notificaciones_idTrabajo_example:
+                  $ref: '#/components/examples/notificaciones_idTrabajo_example'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '404':
+          $ref: '#/components/responses/Response404'
+  
+  /notificaciones/cliente/{idCliente}:
+    get:
+      summary: Obtener notificaciones de un cliente
+      description: Obtiene todas las notificaciones de un cliente, así como los enlaces a los recursos relacionados
+      tags:
+        - "Notificaciones 🔔"
+      parameters:
+        - name: idCliente
+          in: path
+          required: true
+          description: Identificador único del cliente
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: Paginación de las notificaciones del cliente
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Notificaciones del cliente obtenidas correctamente
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notificaciones:
+                    description: Array de notificaciones
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/Notificacion'
+                  enlaces:
+                    description: Enlaces de paginación
+                    readOnly: true
+                    type: arr
+                    properties:
+                      prevPage:
+                        $ref: '#/components/schemas/Enlace'
+                      nextPage:
+                        $ref: '#/components/schemas/Enlace'
+              examples:
+                notificaciones_idCliente_example:
+                  $ref: '#/components/examples/notificaciones_idCliente_example'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '404':
+          $ref: '#/components/responses/Response404'
+    patch:
+      summary: Actualizar la suscripción a notificaciones
+      description: Actualiza la suscripción a notificaciones de un cliente
+      tags:
+        - "Notificaciones 🔔"
+      requestBody:
+        $ref: '#/components/requestBodies/SuscripcionNotificacionesRB'
+      responses:
+        '200':
+          description: Suscripción actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '404':
+          $ref: '#/components/responses/Response404'
+
+components:
+  schemas:
+    Trabajo:
+      type: object
+      properties:
+        idTrabajo:
+          type: string
+        estado:
+          type: string
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date-time
+        fechaFin:
+          type: string
+          format: date-time
+        vehiculo:
+          $ref: '#/components/schemas/Vehiculo'
+        notificaciones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notificacion'
+      required:
+          - idTrabajo
+          - estado
+          - descripcion
+          - fechaInicio
+          - vehiculo
+    
+    Notificacion:
+      type: object
+      properties:
+        idNotificacion:
+          type: string
+        idTrabajo:
+          type: string
+        mensaje:
+          type: string
+        fechaEnvio:
+          type: string
+          format: date-time
+        estado:
+          type: string
+        enlaces:
+          type: object
+          properties:
+            rel:
+              type: string
+            href:
+              type: string
+      required:
+        - idNotificacion
+        - idTrabajo
+        - mensaje
+        - fechaEnvio
+        - estado
+      example:
+        idNotificacion: "1"
+        idTrabajo: "1"
+        mensaje: "El trabajo ha sido realizado"
+        fechaEnvio: "2023-04-10T17:51:00Z"
+        estado: "finalizado"
+        enlaces:
+          - rel: "self"
+            href: "http://127.0.0.1:80/api/v1/notificaciones/1"
+          - rel: "trabajo"
+            href: "http://127.0.0.1:80/api/v1/trabajos/1"
+    
+    Vehiculo:
+      type: object
+      properties:
+        vin:
+          type: string
+        marca:
+          type: string
+        modelo:
+          type: string
+        year:
+          type: integer
+        cliente:
+          type: integer
+      required:
+        - vin
+        - marca
+        - modelo
+        - year
+        - cliente
+      example:
+        vin: "1HGCM82633A004352"
+        marca: "Mercedes"
+        modelo: "Clase A"
+        year: 2023
+        cliente:
+          idCliente: "7y2f5g28974y"
+          nombre: "Pepe"
+          apellido: "Pérez"
+          correo: "pepeperez@example.com"
+          telefono: "689374623"
+    
+    Cliente:
+      type: object
+      properties:
+        nombre: 
+          type: string
+        apellido: 
+          type: string
+        telefono: 
+          type: string
+        email: 
+          type: string
+        direccion: 
+          type: string
+        recibeNotificaciones:
+          type: boolean
+      required:
+        - nombre
+        - apellido
+        - telefono
+        - email
+        - direccion
+        - recibeNotificaciones
+    
+    NotificacionMasiva:
+      type: object
+      properties:
+        idNotificacion:
+          type: string
+        mensaje:
+          type: string
+        fechaEnvio:
+          type: string
+          format: date-time
+    
+    Enlace:
+      description: Enlace de relación
+      title: 'Enlace'
+      type: object
+      properties:
+        href:
+          description: URL del enlace
+          type: string
+          format: uri
+          x-faker: internet.url
+        rel:
+          description: "Relación del recurso enlazado con el actual. Contiene una lista de tipos de relaciones separados por espacio."
+          type: string
+          x-faker: lorem.words
+      example:
+        href: https://www.example.com/path/resource
+        rel: relAction1 relAction2
+
+  examples:
+    notificaciones_idTrabajo_example:
+      value:
+        notificaciones:
+          - idNotificacion: "1"
+            idTrabajo: "1"
+            mensaje: "El trabajo ha sido realizado"
+            fechaEnvio: "2023-04-10T17:51:00Z"
+            estado: "finalizado"
+            enlaces:
+              self: "http://127.0.0.1:80/api/v1/notificaciones/1"
+              trabajo: "http://127.0.0.1:80/api/v1/trabajos/1"
+          - idNotificacion: "2"
+            idTrabajo: "1"
+            mensaje: "El trabajo ha sido realizado"
+            fechaEnvio: "2023-04-10T17:51:00Z"
+            estado: "finalizado"
+            enlaces:
+              self: "http://127.0.0.1:80/api/v1/notificaciones/2"
+              trabajo: "http://127.0.0.1:80/api/v1/trabajos/1"
+        enlaces:
+          prevPage:
+            href: "https://example.com/api/v1/notificaciones/trabajo/1?page=2"
+            rel: "prevPage" 
+          nextPage:
+            href": "https://example.com/api/v1/notificaciones/trabajo/1?page=4"
+            rel: "nextPage"
+    
+    notificaciones_idCliente_example:
+      value:
+        notificaciones:
+          - idNotificacion: "1"
+            idTrabajo: "1"
+            mensaje: "El trabajo ha sido realizado"
+            fechaEnvio: "2023-04-10T17:51:00Z"
+            estado: "finalizado"
+            enlaces:
+              self: "http://127.0.0.1:80/api/v1/notificaciones/1"
+              trabajo: "http://127.0.0.1:80/api/v1/trabajos/1"
+          - idNotificacion: "2"
+            idTrabajo: "1"
+            mensaje: "El trabajo ha sido realizado"
+            fechaEnvio: "2023-04-10T17:51:00Z"
+            estado: "finalizado"
+            enlaces:
+              self: "http://127.0.0.1:80/api/v1/notificaciones/2"
+              trabajo: "http://127.0.0.1:80/api/v1/trabajos/1"
+        enlaces:
+          prevPage:
+            href: "https://example.com/api/v1/notificaciones/cliente/1?page=2"
+            rel: "prevPage" 
+          nextPage:
+            href": "https://example.com/api/v1/notificaciones/cliente/1?page=4"
+            rel: "nextPage"
+  
+  requestBodies:
+    NotificacionRB:
+      description: Datos de la notificación a crear
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idTrabajo:
+                type: string
+                description: ID del trabajo al que está relacionada la notificación
+              mensaje:
+                type: string
+                description: Mensaje de la notificación
+            required:
+              - idTrabajo
+              - mensaje
+          example:
+            idTrabajo: "1"
+            mensaje: "El trabajo ha sido realizado"
+    
+    NotificacionMasivaRB:
+      description: Datos de una notificación masiva
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+                description: Mensaje de la notificación
+              fechaProgramada: 
+                type: string
+                format: date-time
+            required:
+              - mensaje
+            example:
+              mensaje: "Desde el lunes 11 de abril hasta el jueves 13 todos los talleres permanecerán cerrados."
+    
+    SuscripcionNotificacionesRB:
+      description: Datos de la suscripción a las notificaciones 
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idCliente:
+                type: string
+                description: Id del cliente
+              suscripcion:
+                type: boolean
+                description: indica si un usuario está suscrito a las notificaciones
+          example:
+            idCliente: "1"
+            suscripcion: false
+
+  headers:
+    ETag:
+      description: "Entity Tag (identificador único proporcionado para validación de caché)"
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+        example:
+          33a64df551425fcc
+  
+  responses:
+    NotificacionResponse:
+      description: Notificación enviada correctamente
+      headers:
+        ETag:
+          $ref: '#/components/headers/ETag'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Notificacion'
+    
+    NotificacionMasivaResponse:
+      description: Notificación masiva enviada correctamente
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificacionMasiva'
+    
+    Response400:
+      description: "Bad Request"
+    
+    Response404:
+      description: "`NOT FOUND`: resource not found"
+        
