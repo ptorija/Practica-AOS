@@ -1,0 +1,6 @@
+NotificacionMasivaResponse:
+  description: Notificación masiva enviada correctamente
+  content:
+    application/json:
+      schema:
+        $ref: '../schemas/NotificacionMasiva.yaml'

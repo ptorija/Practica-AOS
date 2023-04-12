@@ -1,0 +1,27 @@
+Trabajo:
+     type: object
+     properties:
+       idTrabajo:
+         type: string
+       estado:
+         type: string
+       descripcion:
+         type: string
+       fechaInicio:
+         type: string
+         format: date-time
+       fechaFin:
+         type: string
+         format: date-time
+       vehiculo:
+         $ref: './schemas/Vehiculo.yaml'
+       notificaciones:
+         type: array
+         items:
+           $ref: './schemas/Notificacion.yaml'
+     required:
+         - idTrabajo
+         - estado
+         - descripcion
+         - fechaInicio
+         - vehiculo
