@@ -1,0 +1,10 @@
+NotificacionMasiva:
+  type: object
+  properties:
+    idNotificacion:
+      type: string
+    mensaje:
+      type: string
+    fechaEnvio:
+      type: string
+      format: date-time
