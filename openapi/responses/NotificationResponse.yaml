@@ -1,7 +1,4 @@
 description: Notificación enviada correctamente
-headers:
-  ETag:
-    $ref: '../headers/ETag.yaml'
 content:
   application/json:
     schema:

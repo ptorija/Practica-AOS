@@ -74,7 +74,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/Notificacion.yaml'
+                $ref: './schemas/Notificacion.yaml#/Notificacion'
         '400':
           $ref: './responses/Response_400.yaml'
         '404':
@@ -104,7 +104,7 @@ paths:
           description: Notificaciones del trabajo obtenidas correctamente
           headers:
             ETag:
-              $ref: './headers/ETag.yaml'
+              $ref: './headers/ETag.yaml#/ETag'
           content:
             application/json:
               schema:
@@ -114,16 +114,16 @@ paths:
                     description: Array de notificaciones
                     type: array
                     items: 
-                      $ref: './schemas/Notificacion.yaml'
+                      $ref: './schemas/Notificacion.yaml#/Notificacion'
                   enlaces:
                     description: Enlaces de paginación
                     readOnly: true
                     type: array
                     properties:
                       prevPage:
-                        $ref: './schemas/Enlace.yaml'
+                        $ref: './schemas/Enlace.yaml#/Enlace'
                       nextPage:
-                        $ref: './schemas/Enlace.yaml'
+                        $ref: './schemas/Enlace.yaml#/Enlace'
               examples:
                 notificaciones_idTrabajo_example:
                   $ref: '#/components/examples/notificaciones_idTrabajo_example'
@@ -156,7 +156,7 @@ paths:
           description: Notificaciones del cliente obtenidas correctamente
           headers:
             ETag:
-              $ref: './headers/ETag.yaml'
+              $ref: './headers/ETag.yaml#/ETag'
           content:
             application/json:
               schema:
@@ -166,16 +166,16 @@ paths:
                     description: Array de notificaciones
                     type: array
                     items: 
-                      $ref: './schemas/Notificacion.yaml'
+                      $ref: './schemas/Notificacion.yaml#/Notificacion'
                   enlaces:
                     description: Enlaces de paginación
                     readOnly: true
                     type: array
                     properties:
                       prevPage:
-                        $ref: './schemas/Enlace.yaml'
+                        $ref: './schemas/Enlace.yaml#/Enlace'
                       nextPage:
-                        $ref: './schemas/Enlace.yaml'
+                        $ref: './schemas/Enlace.yaml#/Enlace'
               examples:
                 notificaciones_idCliente_example:
                   $ref: '#/components/examples/notificaciones_idCliente_example'
@@ -196,7 +196,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/Cliente.yaml'
+                $ref: './schemas/Cliente.yaml#/Cliente'
         '400':
           $ref: './responses/Response_400.yaml'
         '404':
@@ -298,8 +298,8 @@ components:
                 format: date-time
             required:
               - mensaje
-            example:
-              mensaje: "Desde el lunes 11 de abril hasta el jueves 13 todos los talleres permanecerán cerrados."
+          example:
+            mensaje: "Desde el lunes 11 de abril hasta el jueves 13 todos los talleres permanecerán cerrados."
     
     SuscripcionNotificacionesRB:
       description: Datos de la suscripción a las notificaciones 
