@@ -14,7 +14,7 @@ Para poder desplegar el proyecto:
         $ docker-compose build
 
         $ docker-compose up
-
+ 5. Abrir: `http://localhost:8000/` en un navegador
     
 <br><br>
 
