@@ -14,11 +14,11 @@ Trabajo:
          type: string
          format: date-time
        vehiculo:
-         $ref: './schemas/Vehiculo.yaml'
+         $ref: './Vehiculo.yaml#/Vehiculo'
        notificaciones:
          type: array
          items:
-           $ref: './schemas/Notificacion.yaml'
+           $ref: './Notificacion.yaml#/Notificacion'
      required:
          - idTrabajo
          - estado

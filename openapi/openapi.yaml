@@ -20,6 +20,8 @@ paths:
           $ref: './responses/NotificationResponse.yaml'
         '400':
           $ref: './responses/Response_400.yaml'
+        '422':
+          $ref: './responses/Response_422.yaml'
   
   /notificaciones/telefono:
     post:
@@ -34,6 +36,8 @@ paths:
           $ref: './responses/NotificationResponse.yaml'
         '400':
           $ref: './responses/Response_400.yaml'
+        '422':
+          $ref: './responses/Response_422.yaml'
   
   /notificaciones/masivas:
     post:
@@ -48,6 +52,8 @@ paths:
           $ref: './responses/NotificacionMasivaResponse.yaml'
         '400':
           $ref: './responses/Response_400.yaml'
+        '422':
+          $ref: './responses/Response_422.yaml'
   
   /notificaciones/{idNotificacion}:
     get:
@@ -195,6 +201,8 @@ paths:
           $ref: './responses/Response_400.yaml'
         '404':
           $ref: './responses/Response_404.yaml'
+        '422':
+          $ref: './responses/Response_422.yaml'
 
 components:
   examples:
@@ -310,3 +318,17 @@ components:
           example:
             idCliente: "1"
             suscripcion: false
+  
+  schemas:
+    Cliente:
+      $ref: "./schemas/Cliente.yaml#/Cliente"
+    Enlace:
+      $ref: "./schemas/Enlace.yaml#/Enlace"
+    Notificacion:
+      $ref: "./schemas/Notificacion.yaml#/Notificacion"
+    NotificacionMasiva:
+      $ref: "./schemas/NotificacionMasiva.yaml#/NotificacionMasiva"
+    Trabajo:
+      $ref: "./schemas/Trabajo.yaml#/Trabajo"
+    Vehiculo:
+      $ref: "./schemas/Vehiculo.yaml#/Vehiculo"
