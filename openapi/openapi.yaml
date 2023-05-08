@@ -22,7 +22,16 @@ paths:
           $ref: './responses/Response_400.yaml'
         '422':
           $ref: './responses/Response_422.yaml'
-  
+    options:
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera Allow con la lista de métodos HTTP soportados (separados por comas).
+      tags: [ "Notificaciones 🔔" ]
+      responses:
+        '204':
+          description: 'cabecera Allow &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: './headers/Allow.yaml#/Allow'
   /notificaciones/telefono:
     post:
       summary: Envío de notificación de cambio de estado del trabajo por teléfono
@@ -38,7 +47,17 @@ paths:
           $ref: './responses/Response_400.yaml'
         '422':
           $ref: './responses/Response_422.yaml'
-  
+    options:
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera Allow con la lista de métodos HTTP soportados (separados por comas).
+      tags: [ "Notificaciones 🔔" ]
+      responses:
+        '204':
+          description: 'cabecera Allow &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: './headers/Allow.yaml#/Allow'
+
   /notificaciones/masivas:
     post:
       summary: Envío de notificación masiva
@@ -54,7 +73,17 @@ paths:
           $ref: './responses/Response_400.yaml'
         '422':
           $ref: './responses/Response_422.yaml'
-  
+    options:
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera Allow con la lista de métodos HTTP soportados (separados por comas).
+      tags: [ "Notificaciones 🔔" ]
+      responses:
+        '204':
+          description: 'cabecera Allow &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: './headers/Allow.yaml#/Allow'
+
   /notificaciones/{idNotificacion}:
     get:
       summary: Obtener una notificación
@@ -71,6 +100,9 @@ paths:
       responses:
         '200':
           description: Notificación obtenida correctamente
+          headers:
+            ETag:
+              $ref: './headers/ETag.yaml#/ETag'
           content:
             application/json:
               schema:
@@ -79,7 +111,17 @@ paths:
           $ref: './responses/Response_400.yaml'
         '404':
           $ref: './responses/Response_404.yaml'
-  
+    options:
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera Allow con la lista de métodos HTTP soportados (separados por comas).
+      tags: [ "Notificaciones 🔔" ]
+      responses:
+        '204':
+          description: 'cabecera Allow &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: './headers/Allow.yaml#/Allow'
+
   /notificaciones/trabajo/{idTrabajo}:
     get:
       summary: Obtener notificaciones de un trabajo
@@ -95,7 +137,7 @@ paths:
             type: string
         - name: page
           in: query
-          required: true
+          required: false
           description: Paginación de las notificaciones del trabajo
           schema:
             type: integer
@@ -131,7 +173,17 @@ paths:
           $ref: './responses/Response_400.yaml'
         '404':
           $ref: './responses/Response_404.yaml'
-  
+    options:
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera Allow con la lista de métodos HTTP soportados (separados por comas).
+      tags: [ "Notificaciones 🔔" ]
+      responses:
+        '204':
+          description: 'cabecera Allow &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: './headers/Allow.yaml#/Allow'
+
   /notificaciones/cliente/{idCliente}:
     get:
       summary: Obtener notificaciones de un cliente
@@ -147,7 +199,7 @@ paths:
             type: string
         - name: page
           in: query
-          required: true
+          required: false
           description: Paginación de las notificaciones del cliente
           schema:
             type: integer
@@ -203,7 +255,17 @@ paths:
           $ref: './responses/Response_404.yaml'
         '422':
           $ref: './responses/Response_422.yaml'
-
+    options:
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera Allow con la lista de métodos HTTP soportados (separados por comas).
+      tags: [ "Notificaciones 🔔" ]
+      responses:
+        '204':
+          description: 'cabecera Allow &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: './headers/Allow.yaml#/Allow'
+              
 components:
   examples:
     notificaciones_idTrabajo_example:
